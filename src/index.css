@@ -30,3 +30,13 @@ body {
   color: #333333;
   -webkit-font-smoothing: antialiased;
 }
+
+/* Masquer la scrollbar tout en gardant le défilement */
+.sidebar-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

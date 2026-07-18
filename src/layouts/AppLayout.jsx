@@ -101,14 +101,10 @@ function NavItem({ icon: Icon, label, active, onClick, collapsed, accent = '#E06
   }
 
   const bg = active
-    ? `rgba(${rgb},0.14)`
-    : hover ? 'rgba(255,255,255,0.055)' : 'transparent'
-  const color = active
-    ? `#${[...accent.slice(1)].reduce((a,c,i) => i%2?a+c:a+c,'')}`  // accent
-    : hover ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.52)'
+    ? `linear-gradient(90deg, rgba(${rgb},0.22) 0%, rgba(${rgb},0.08) 100%)`
+    : hover ? 'rgba(255,255,255,0.08)' : 'transparent'
 
-  /* accent correct */
-  const textColor = active ? accent : hover ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.52)'
+  const textColor = active ? accent : hover ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.6)'
 
   return (
     <>
@@ -120,24 +116,26 @@ function NavItem({ icon: Icon, label, active, onClick, collapsed, accent = '#E06
         style={{
           width: '100%', display: 'flex', alignItems: 'center',
           justifyContent: collapsed ? 'center' : 'flex-start',
-          gap: 10, padding: collapsed ? '9px 0' : '8px 12px',
-          marginBottom: 1, borderRadius: 9, border: 'none', cursor: 'pointer',
-          backgroundColor: bg, color: textColor,
+          gap: 11, padding: collapsed ? '10px 0' : '9px 13px',
+          marginBottom: 2, borderRadius: 8, border: 'none', cursor: 'pointer',
+          background: bg, color: textColor,
           fontSize: 13, fontWeight: active ? 600 : 400,
-          transition: 'background 0.15s, color 0.15s',
+          transition: 'all 0.18s cubic-bezier(0.4,0,0.2,1)',
+          position: 'relative',
+          overflow: 'hidden',
         }}
       >
-        <Icon size={15} strokeWidth={active ? 2.4 : 1.8} style={{ flexShrink: 0 }} />
+        {active && !collapsed && (
+          <div style={{
+            position: 'absolute', left: 0, top: 6, bottom: 6, width: 3,
+            background: accent, borderRadius: '0 4px 4px 0',
+          }} />
+        )}
+        <Icon size={active ? 16 : 15} strokeWidth={active ? 2.3 : 1.7} style={{ flexShrink: 0 }} />
         {!collapsed && (
           <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {label}
           </span>
-        )}
-        {!collapsed && active && (
-          <div style={{
-            width: 5, height: 5, borderRadius: '50%',
-            backgroundColor: accent, flexShrink: 0, opacity: 0.8,
-          }} />
         )}
       </button>
       {collapsed && tipY !== null && <Tooltip label={label} anchorY={tipY} />}
@@ -170,26 +168,29 @@ function ZoneHeader({ label, accent, rgb, isOpen, active, onToggle, collapsed })
         style={{
           width: '100%', display: 'flex', alignItems: 'center',
           justifyContent: collapsed ? 'center' : 'flex-start',
-          gap: 9, padding: collapsed ? '10px 0' : '9px 12px',
-          marginBottom: 3, borderRadius: 10, border: 'none', cursor: 'pointer',
+          gap: 10, padding: collapsed ? '11px 0' : '10px 13px',
+          marginBottom: 4, borderRadius: 9, border: 'none', cursor: 'pointer',
           background: lit || hover
-            ? `rgba(${rgb},0.12)`
+            ? `linear-gradient(90deg, rgba(${rgb},0.18) 0%, rgba(${rgb},0.06) 100%)`
             : 'transparent',
-          transition: 'background 0.15s',
+          transition: 'all 0.18s cubic-bezier(0.4,0,0.2,1)',
         }}
       >
         {/* Puce colorée */}
         <div style={{
-          width: 24, height: 24, borderRadius: 7, flexShrink: 0,
-          backgroundColor: lit ? `rgba(${rgb},0.25)` : 'rgba(255,255,255,0.07)',
-          border: `1px solid ${lit ? `rgba(${rgb},0.5)` : 'rgba(255,255,255,0.08)'}`,
+          width: 26, height: 26, borderRadius: 8, flexShrink: 0,
+          background: lit
+            ? `linear-gradient(135deg, ${accent} 0%, rgba(${rgb},0.6) 100%)`
+            : 'rgba(255,255,255,0.08)',
+          border: lit ? 'none' : '1px solid rgba(255,255,255,0.1)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          transition: 'all 0.15s',
+          transition: 'all 0.18s',
+          boxShadow: lit ? `0 2px 8px rgba(${rgb},0.4)` : 'none',
         }}>
           <div style={{
-            width: 8, height: 8, borderRadius: '50%',
-            backgroundColor: lit ? accent : 'rgba(255,255,255,0.25)',
-            transition: 'background 0.15s',
+            width: 9, height: 9, borderRadius: '50%',
+            backgroundColor: lit ? '#fff' : 'rgba(255,255,255,0.3)',
+            transition: 'all 0.18s',
           }} />
         </div>
 
@@ -197,16 +198,16 @@ function ZoneHeader({ label, accent, rgb, isOpen, active, onToggle, collapsed })
           <>
             <span style={{
               flex: 1, textAlign: 'left',
-              fontSize: 12, fontWeight: 700, letterSpacing: '0.06em',
-              color: lit ? accent : 'rgba(255,255,255,0.4)',
-              transition: 'color 0.15s',
+              fontSize: 11.5, fontWeight: 700, letterSpacing: '0.08em',
+              color: lit ? accent : 'rgba(255,255,255,0.45)',
+              transition: 'color 0.18s',
             }}>
               {label}
             </span>
-            <ChevronDown size={13} style={{
-              color: lit ? `rgba(${rgb},0.6)` : 'rgba(255,255,255,0.22)',
+            <ChevronDown size={12} style={{
+              color: lit ? accent : 'rgba(255,255,255,0.25)',
               transform: isOpen ? 'rotate(0deg)' : 'rotate(-90deg)',
-              transition: 'transform 0.2s ease, color 0.15s',
+              transition: 'transform 0.22s cubic-bezier(0.4,0,0.2,1), color 0.18s',
               flexShrink: 0,
             }} />
           </>
@@ -219,7 +220,7 @@ function ZoneHeader({ label, accent, rgb, isOpen, active, onToggle, collapsed })
 
 /* ── Divider ───────────────────────────────────────────── */
 const Divider = () => (
-  <div style={{ margin: '10px 12px', borderTop: '1px solid rgba(255,255,255,0.07)' }} />
+  <div style={{ margin: '14px 13px', borderTop: '1px dashed rgba(255,255,255,0.1)' }} />
 )
 
 /* ── Label section ─────────────────────────────────────── */
@@ -229,7 +230,7 @@ function SectionLabel({ children, collapsed }) {
     <p style={{
       padding: '2px 12px 6px',
       fontSize: 9.5, fontWeight: 700, letterSpacing: '0.12em',
-      color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase',
+      color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase',
     }}>
       {children}
     </p>
@@ -259,8 +260,8 @@ export default function AppLayout() {
   }))
 
   useEffect(() => {
-    if (pathname.startsWith('/cavally'))    setOpenZones(z => ({ ...z, cavally:    true }))
-    if (pathname.startsWith('/worodougou')) setOpenZones(z => ({ ...z, worodougou: true }))
+    if (pathname.startsWith('/cavally'))    setOpenZones(z => ({ ...z, cavally: true, worodougou: false }))
+    if (pathname.startsWith('/worodougou')) setOpenZones(z => ({ ...z, worodougou: true, cavally: false }))
   }, [pathname])
 
   useEffect(() => {
@@ -283,41 +284,41 @@ export default function AppLayout() {
       <aside style={{
         position: 'fixed', top: 0, left: 0, bottom: 0, zIndex: 50,
         width: sideW, display: 'flex', flexDirection: 'column',
-        backgroundColor: '#0f172a',
-        borderRight: '1px solid rgba(255,255,255,0.06)',
-        boxShadow: '2px 0 16px rgba(0,0,0,0.25)',
+        backgroundColor: '#1a2536',
+        borderRight: '1px solid rgba(255,255,255,0.08)',
+        boxShadow: '2px 0 20px rgba(0,0,0,0.3)',
         transition: 'width 0.22s cubic-bezier(0.4,0,0.2,1)',
         overflow: 'hidden',
       }}>
 
         {/* ── Logo ─────────────────────────────────────────── */}
         <div style={{
-          height: 64, flexShrink: 0,
+          height: 68, flexShrink: 0,
           display: 'flex', alignItems: 'center',
-          padding: collapsed ? '0' : '0 8px 0 16px',
+          padding: collapsed ? '0' : '0 10px 0 18px',
           justifyContent: collapsed ? 'center' : 'space-between',
-          borderBottom: '1px solid rgba(255,255,255,0.07)',
-          gap: 10,
+          borderBottom: '1px solid rgba(255,255,255,0.1)',
+          gap: 12,
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, overflow: 'hidden' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 11, overflow: 'hidden' }}>
             {/* Logo carré */}
             <div style={{
-              width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+              width: 38, height: 38, borderRadius: 11, flexShrink: 0,
               background: 'linear-gradient(135deg, #C75A24 0%, #e8813d 100%)',
-              boxShadow: '0 4px 12px rgba(199,90,36,0.4)',
+              boxShadow: '0 4px 14px rgba(199,90,36,0.45)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              <img src="/logo.png" alt="" style={{ height: 22, filter: 'brightness(0) invert(1)' }} />
+              <img src="/logo.png" alt="" style={{ height: 23, filter: 'brightness(0) invert(1)' }} />
             </div>
             {!collapsed && (
               <div style={{ overflow: 'hidden' }}>
                 <p style={{
-                  color: '#f8fafc', fontWeight: 700, fontSize: 15,
-                  letterSpacing: '-0.025em', lineHeight: '20px', whiteSpace: 'nowrap',
+                  color: '#f8fafc', fontWeight: 700, fontSize: 16,
+                  letterSpacing: '-0.02em', lineHeight: '21px', whiteSpace: 'nowrap',
                 }}>AtlasCAG</p>
                 <p style={{
-                  color: 'rgba(255,255,255,0.3)', fontSize: 10,
-                  letterSpacing: '0.1em', whiteSpace: 'nowrap',
+                  color: 'rgba(255,255,255,0.38)', fontSize: 10,
+                  letterSpacing: '0.12em', whiteSpace: 'nowrap',
                 }}>GESTION FONCIÈRE</p>
               </div>
             )}
@@ -326,29 +327,29 @@ export default function AppLayout() {
           {/* Bouton toggle */}
           {!collapsed && (
             <button onClick={toggleSidebar} style={{
-              width: 28, height: 28, borderRadius: 7, flexShrink: 0,
-              border: '1px solid rgba(255,255,255,0.1)',
-              backgroundColor: 'rgba(255,255,255,0.05)',
+              width: 30, height: 30, borderRadius: 8, flexShrink: 0,
+              border: '1px solid rgba(255,255,255,0.15)',
+              backgroundColor: 'rgba(255,255,255,0.08)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: 'rgba(255,255,255,0.4)', cursor: 'pointer',
-              transition: 'all 0.15s',
+              color: 'rgba(255,255,255,0.5)', cursor: 'pointer',
+              transition: 'all 0.18s cubic-bezier(0.4,0,0.2,1)',
             }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'rgba(255,255,255,0.8)' }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)' }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)'; e.currentTarget.style.color = 'rgba(255,255,255,0.95)' }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)' }}
             >
               <PanelLeftClose size={14} />
             </button>
           )}
           {collapsed && (
             <button onClick={toggleSidebar} style={{
-              width: 36, height: 36, borderRadius: 8,
+              width: 38, height: 38, borderRadius: 9,
               backgroundColor: 'transparent', border: 'none',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: 'rgba(255,255,255,0.4)', cursor: 'pointer',
-              transition: 'all 0.15s',
+              color: 'rgba(255,255,255,0.5)', cursor: 'pointer',
+              transition: 'all 0.18s cubic-bezier(0.4,0,0.2,1)',
             }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.07)'; e.currentTarget.style.color = 'rgba(255,255,255,0.8)' }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)' }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'rgba(255,255,255,0.95)' }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)' }}
             >
               <PanelLeftOpen size={14} />
             </button>
@@ -356,7 +357,7 @@ export default function AppLayout() {
         </div>
 
         {/* ── Navigation ───────────────────────────────────── */}
-        <nav style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', padding: '12px 8px 8px' }}>
+        <nav className="sidebar-scroll" style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', padding: '12px 8px 8px' }}>
 
           <SectionLabel collapsed={collapsed}>Principal</SectionLabel>
           {TOP_ITEMS.map(({ to, icon, label }) => (
@@ -376,7 +377,10 @@ export default function AppLayout() {
                 <ZoneHeader
                   label={label} accent={accent} rgb={rgb}
                   isOpen={isOpen} active={zoneActive} collapsed={collapsed}
-                  onToggle={() => setOpenZones(z => ({ ...z, [key]: !z[key] }))}
+                  onToggle={() => {
+                    const otherZone = key === 'cavally' ? 'worodougou' : 'cavally'
+                    setOpenZones(z => ({ ...z, [key]: !z[key], [otherZone]: false }))
+                  }}
                 />
                 {isOpen && (
                   <div style={{ position: 'relative', paddingLeft: collapsed ? 0 : 6, paddingBottom: 6 }}>
@@ -407,32 +411,33 @@ export default function AppLayout() {
 
         {/* ── Profil ───────────────────────────────────────── */}
         <div style={{
-          flexShrink: 0, padding: collapsed ? '14px 0' : '12px 14px',
-          borderTop: '1px solid rgba(255,255,255,0.07)',
+          flexShrink: 0, padding: collapsed ? '16px 0' : '14px 16px',
+          borderTop: '1px solid rgba(255,255,255,0.1)',
           display: 'flex', alignItems: 'center',
           justifyContent: collapsed ? 'center' : 'flex-start',
-          gap: 10, backgroundColor: 'rgba(0,0,0,0.2)',
+          gap: 11, backgroundColor: 'rgba(0,0,0,0.2)',
         }}>
           <div style={{
-            width: 34, height: 34, borderRadius: 10, flexShrink: 0,
-            backgroundColor: profilColor, color: '#fff',
+            width: 36, height: 36, borderRadius: 11, flexShrink: 0,
+            background: `linear-gradient(135deg, ${profilColor} 0%, ${profilColor}dd 100%)`,
+            color: '#fff',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 12, fontWeight: 700, letterSpacing: '0.02em',
-            boxShadow: `0 2px 8px rgba(0,0,0,0.3)`,
+            fontSize: 12.5, fontWeight: 700, letterSpacing: '0.02em',
+            boxShadow: `0 4px 12px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.1)`,
           }}>
             {initials}
           </div>
           {!collapsed && (
             <div style={{ minWidth: 0 }}>
               <p style={{
-                color: '#f1f5f9', fontSize: 12.5, fontWeight: 600,
+                color: '#f1f5f9', fontSize: 13, fontWeight: 600,
                 whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                 lineHeight: '18px',
               }}>
                 {user ? `${user.first_name} ${user.last_name}`.trim() || user.username : '—'}
               </p>
               <p style={{
-                color: 'rgba(255,255,255,0.35)', fontSize: 10.5,
+                color: 'rgba(255,255,255,0.42)', fontSize: 11,
                 whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
               }}>
                 {user ? (PROFILS[user.profil] ?? user.profil) : ''}
