@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  /* Charte AtlasCAG */
+  --color-primary:       #C75A24;
+  --color-primary-dark:  #a8491c;
+  --color-primary-light: #fdf0ea;
+
+  --color-teal:          #41A6C7;
+  --color-teal-dark:     #3390af;
+  --color-teal-light:    #e8f6fb;
+
+  --color-success:       #43D793;
+  --color-success-dark:  #35b87a;
+  --color-success-light: #eafbf3;
+
+  --color-sidebar:       #1a2536;
+  --color-sidebar-hover: rgba(255,255,255,0.08);
+
+  --color-body:          #333333;
+  --color-muted:         #6b7280;
+  --color-border:        #e5e7eb;
+  --color-surface:       #f8f9fb;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  color: #333333;
+  -webkit-font-smoothing: antialiased;
+}
