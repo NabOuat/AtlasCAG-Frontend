@@ -12,6 +12,7 @@ const DossierDetail  = lazy(() => import('@/pages/dossiers/DossierDetail'))
 const VillageList    = lazy(() => import('@/pages/villages/VillageList'))
 const ControleList   = lazy(() => import('@/pages/controle/ControleList'))
 const ControleQC     = lazy(() => import('@/pages/controle/ControleQC'))
+const PublicitePage  = lazy(() => import('@/pages/publicite/PublicitePage'))
 const PlanningPage   = lazy(() => import('@/pages/planning/PlanningPage'))
 const RapportPage    = lazy(() => import('@/pages/rapports/RapportPage'))
 const AdminPage      = lazy(() => import('@/pages/admin/AdminPage'))
@@ -46,6 +47,7 @@ const zoneChildren = [
   { path: 'traitement-dtv',     element: wrap(<TraitementPage />) },
   { path: 'planning',           element: wrap(<PlanningPage />) },
   { path: 'controle',           element: wrap(<ControleQC />) },
+  { path: 'publicite',          element: wrap(<PublicitePage />) },
 ]
 
 export const router = createBrowserRouter([

@@ -5,7 +5,7 @@ import {
   LayoutDashboard, FolderOpen, MapPin, CheckSquare,
   Calendar, Settings, LogOut, ChevronDown, ChevronRight,
   PanelLeftClose, PanelLeftOpen, Bell, Globe, Users,
-  Wrench, Compass, FileCheck, Activity, FileText,
+  Wrench, Compass, FileCheck, Activity, FileText, Megaphone,
 } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import { PROFILS } from '@/utils/permissions'
@@ -23,7 +23,8 @@ const ZONE_ITEMS = [
   { path: 'traitement-cf',  icon: FileCheck,   label: 'Traitement CF' },
   { path: 'traitement-dtv', icon: Activity,    label: 'Traitement DTV' },
   { path: 'planning',       icon: Calendar,    label: 'Planning & Suivi' },
-  { path: 'controle',       icon: CheckSquare, label: 'Contrôle Qualité' },
+  { path: 'controle',    icon: CheckSquare, label: 'Contrôle Qualité' },
+  { path: 'publicite',   icon: Megaphone,   label: 'Publicité' },
 ]
 
 const ZONES = [
