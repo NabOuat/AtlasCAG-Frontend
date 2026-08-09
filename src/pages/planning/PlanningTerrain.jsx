@@ -45,7 +45,7 @@ function ActivityPill({ act }) {
   )
 }
 
-export default function PlanningPage() {
+export default function PlanningTerrain() {
   const [activities, setActivities] = useState([])
   const [zones, setZones]           = useState([])
   const [loading, setLoading]       = useState(true)

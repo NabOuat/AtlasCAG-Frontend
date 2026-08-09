@@ -5,7 +5,7 @@ import {
   LayoutDashboard, FolderOpen, MapPin, CheckSquare,
   Calendar, Settings, LogOut, ChevronDown, ChevronRight,
   PanelLeftClose, PanelLeftOpen, Bell, Globe, Users,
-  Wrench, Compass, FileCheck, Activity, FileText, Megaphone,
+  Wrench, Compass, FileCheck, Activity, ClipboardCheck, Megaphone,
 } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import { PROFILS } from '@/utils/permissions'
@@ -35,7 +35,7 @@ const ZONES = [
 const TOP_ITEMS    = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Tableau de bord' },
   { to: '/geo',       icon: Globe,           label: 'Géoportail' },
-  { to: '/geo/cf',    icon: FileText,        label: 'Parcelles CF' },
+  { to: '/geo/cf',    icon: ClipboardCheck,  label: 'Suivi CF' },
 ]
 const BOTTOM_ITEMS = [
   { to: '/admin', icon: Settings, label: 'Administration' },
@@ -50,7 +50,7 @@ const PROFIL_COLORS = {
 function getBreadcrumb(pathname) {
   if (pathname === '/dashboard') return [{ label: 'Tableau de bord' }]
   if (pathname === '/geo')       return [{ label: 'Géoportail' }]
-  if (pathname === '/geo/cf')    return [{ label: 'Géoportail' }, { label: 'Parcelles CF' }]
+  if (pathname === '/geo/cf')    return [{ label: 'Géoportail' }, { label: 'Suivi CF' }]
   if (pathname === '/admin')     return [{ label: 'Administration' }]
   const m = pathname.match(/^\/(cavally|worodougou)\/(.+)/)
   if (m) {
@@ -132,9 +132,17 @@ function NavItem({ icon: Icon, label, active, onClick, collapsed, accent = '#E06
             background: accent, borderRadius: '0 4px 4px 0',
           }} />
         )}
-        <Icon size={active ? 16 : 15} strokeWidth={active ? 2.3 : 1.7} style={{ flexShrink: 0 }} />
+        <span style={{
+          width: 16, height: 16, flexShrink: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <Icon size={active ? 16 : 15} strokeWidth={active ? 2.3 : 1.7} />
+        </span>
         {!collapsed && (
-          <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <span style={{
+            flex: 1, textAlign: 'left', overflow: 'hidden',
+            textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+          }}>
             {label}
           </span>
         )}
@@ -169,28 +177,29 @@ function ZoneHeader({ label, accent, rgb, isOpen, active, onToggle, collapsed })
         style={{
           width: '100%', display: 'flex', alignItems: 'center',
           justifyContent: collapsed ? 'center' : 'flex-start',
-          gap: 10, padding: collapsed ? '11px 0' : '10px 13px',
-          marginBottom: 4, borderRadius: 9, border: 'none', cursor: 'pointer',
-          background: lit || hover
-            ? `linear-gradient(90deg, rgba(${rgb},0.18) 0%, rgba(${rgb},0.06) 100%)`
-            : 'transparent',
+          gap: 11, padding: collapsed ? '12px 0' : '11px 14px',
+          marginBottom: 4, borderRadius: 10, border: 'none', cursor: 'pointer',
+          background: lit
+            ? `linear-gradient(90deg, rgba(${rgb},0.20) 0%, rgba(${rgb},0.07) 100%)`
+            : hover ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.02)',
+          boxShadow: lit ? `inset 0 0 0 1px rgba(${rgb},0.3)` : 'inset 0 0 0 1px rgba(255,255,255,0.04)',
           transition: 'all 0.18s cubic-bezier(0.4,0,0.2,1)',
         }}
       >
         {/* Puce colorée */}
         <div style={{
-          width: 26, height: 26, borderRadius: 8, flexShrink: 0,
+          width: 28, height: 28, borderRadius: 8, flexShrink: 0,
           background: lit
             ? `linear-gradient(135deg, ${accent} 0%, rgba(${rgb},0.6) 100%)`
-            : 'rgba(255,255,255,0.08)',
-          border: lit ? 'none' : '1px solid rgba(255,255,255,0.1)',
+            : 'rgba(255,255,255,0.09)',
+          border: lit ? 'none' : '1px solid rgba(255,255,255,0.12)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           transition: 'all 0.18s',
           boxShadow: lit ? `0 2px 8px rgba(${rgb},0.4)` : 'none',
         }}>
           <div style={{
             width: 9, height: 9, borderRadius: '50%',
-            backgroundColor: lit ? '#fff' : 'rgba(255,255,255,0.3)',
+            backgroundColor: lit ? '#fff' : 'rgba(255,255,255,0.35)',
             transition: 'all 0.18s',
           }} />
         </div>
@@ -199,14 +208,14 @@ function ZoneHeader({ label, accent, rgb, isOpen, active, onToggle, collapsed })
           <>
             <span style={{
               flex: 1, textAlign: 'left',
-              fontSize: 11.5, fontWeight: 700, letterSpacing: '0.08em',
-              color: lit ? accent : 'rgba(255,255,255,0.45)',
+              fontSize: 12.5, fontWeight: 800, letterSpacing: '0.09em',
+              color: lit ? accent : 'rgba(255,255,255,0.55)',
               transition: 'color 0.18s',
             }}>
               {label}
             </span>
-            <ChevronDown size={12} style={{
-              color: lit ? accent : 'rgba(255,255,255,0.25)',
+            <ChevronDown size={13} style={{
+              color: lit ? accent : 'rgba(255,255,255,0.3)',
               transform: isOpen ? 'rotate(0deg)' : 'rotate(-90deg)',
               transition: 'transform 0.22s cubic-bezier(0.4,0,0.2,1), color 0.18s',
               flexShrink: 0,
@@ -384,7 +393,13 @@ export default function AppLayout() {
                   }}
                 />
                 {isOpen && (
-                  <div style={{ position: 'relative', paddingLeft: collapsed ? 0 : 6, paddingBottom: 6 }}>
+                  <div style={{ position: 'relative', paddingLeft: collapsed ? 0 : 15, paddingBottom: 6 }}>
+                    {!collapsed && (
+                      <div style={{
+                        position: 'absolute', left: 19, top: 2, bottom: 10, width: 2,
+                        borderRadius: 2, background: `rgba(${rgb},0.25)`,
+                      }} />
+                    )}
                     {ZONE_ITEMS.map(({ path, icon, label: lbl }) => {
                       const to = `/${key}/${path}`
                       return (

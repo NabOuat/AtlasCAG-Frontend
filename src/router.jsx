@@ -13,11 +13,11 @@ const VillageList    = lazy(() => import('@/pages/villages/VillageList'))
 const ControleList   = lazy(() => import('@/pages/controle/ControleList'))
 const ControleQC     = lazy(() => import('@/pages/controle/ControleQC'))
 const PublicitePage  = lazy(() => import('@/pages/publicite/PublicitePage'))
-const PlanningPage   = lazy(() => import('@/pages/planning/PlanningPage'))
+const PlanningSuiviPage = lazy(() => import('@/pages/planning/PlanningSuiviPage'))
 const RapportPage    = lazy(() => import('@/pages/rapports/RapportPage'))
 const AdminPage      = lazy(() => import('@/pages/admin/AdminPage'))
 const GeoPortail     = lazy(() => import('@/pages/geo/GeoPortail'))
-const CfParcelles    = lazy(() => import('@/pages/geo/CfParcelles'))
+const SuiviCF        = lazy(() => import('@/pages/geo/SuiviCF'))
 const EquipePage     = lazy(() => import('@/pages/equipes/EquipePage'))
 const TraitementPage = lazy(() => import('@/pages/traitement/TraitementPage'))
 
@@ -45,7 +45,7 @@ const zoneChildren = [
   { path: 'gnss',               element: wrap(<EquipePage />) },
   { path: 'traitement-cf',      element: wrap(<TraitementPage />) },
   { path: 'traitement-dtv',     element: wrap(<TraitementPage />) },
-  { path: 'planning',           element: wrap(<PlanningPage />) },
+  { path: 'planning',           element: wrap(<PlanningSuiviPage />) },
   { path: 'controle',           element: wrap(<ControleQC />) },
   { path: 'publicite',          element: wrap(<PublicitePage />) },
 ]
@@ -63,7 +63,7 @@ export const router = createBrowserRouter([
       { index: true,          element: <Navigate to="/dashboard" replace /> },
       { path: 'dashboard',    element: wrap(<Dashboard />) },
       { path: 'geo',          element: wrap(<GeoPortail />) },
-      { path: 'geo/cf',       element: wrap(<CfParcelles />) },
+      { path: 'geo/cf',       element: wrap(<SuiviCF />) },
       { path: 'admin',        element: wrap(<AdminPage />) },
       /* Routes legacy — accessibles directement mais hors sidebar */
       { path: 'dossiers',     element: wrap(<DossierList />) },

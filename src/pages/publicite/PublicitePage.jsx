@@ -7,23 +7,7 @@ import {
 } from 'lucide-react'
 import { getVillages } from '@/api/referentiel'
 import { getPlansPDF, uploadPlanPDF, deleteFichier, getExcelsPublicite, uploadExcelPublicite, deleteExcelPublicite } from '@/api/fichiers'
-
-/* ── Palette ─────────────────────────────────────────────────── */
-const C = {
-  bg:       '#f1f5f9',
-  card:     '#ffffff',
-  border:   '#e2e8f0',
-  navy:     '#1a2536',
-  orange:   '#C75A24',
-  orangeL:  '#f97316',
-  green:    '#10b981',
-  text:     '#0f172a',
-  muted:    '#64748b',
-  light:    '#94a3b8',
-  red:      '#ef4444',
-  excel:    '#217346',
-  pdf:      '#dc2626',
-}
+import { C } from '@/utils/theme'
 
 const ZONE_IDS = { cavally: 1, worodougou: 2 }
 
@@ -260,7 +244,17 @@ function UploadModal({ mode, villages, onClose, onSuccess }) {
   const pickFile = (f) => {
     if (!f) return
     setFile(f)
-    if (!form.nom) setForm(v => ({ ...v, nom: f.name.replace(/\.[^.]+$/, '') }))
+    setForm(v => {
+      let nom = v.nom || f.name.replace(/\.[^.]+$/, '')
+      let dossier = v.dossier
+      if (isPDF && !dossier) {
+        const match = f.name.match(/Carte_([\w-]+)/i) || f.name.match(/(\d{3}-\d{3}-\d{6})/)
+        if (match) {
+          dossier = match[1] || match[0]
+        }
+      }
+      return { ...v, nom, dossier }
+    })
   }
 
   const handleDrop = (e) => {
@@ -281,7 +275,7 @@ function UploadModal({ mode, villages, onClose, onSuccess }) {
       fd.append('fichier', file)
       fd.append('nom', form.nom.trim())
       if (isPDF) {
-        fd.append('dossier', form.dossier)
+        fd.append('dossier', form.dossier.trim())
         fd.append('type_fichier', 'PLAN')
       } else {
         fd.append('village', form.village)
@@ -400,13 +394,13 @@ function UploadModal({ mode, villages, onClose, onSuccess }) {
           {isPDF ? (
             <div>
               <label style={{ fontSize: 12, fontWeight: 600, color: C.muted, display: 'block', marginBottom: 6 }}>
-                N° de dossier (ID) *
+                N° de dossier (ID ou Code) *
               </label>
               <input
                 value={form.dossier}
                 onChange={e => setForm(v => ({ ...v, dossier: e.target.value }))}
-                placeholder="ID du dossier CF"
-                type="number"
+                placeholder="ID ou Code du dossier (ex: 505-009-000001)"
+                type="text"
                 style={{
                   width: '100%', padding: '9px 12px',
                   border: `1px solid ${C.border}`, borderRadius: 8,

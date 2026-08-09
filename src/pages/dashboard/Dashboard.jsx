@@ -8,38 +8,7 @@ import {
 import { getDashboard } from '@/api/stats'
 import dayjs from 'dayjs'
 
-/* ── Constantes de couleurs ──────────────────────────────────── */
-const C = {
-  orange:  '#C75A24',
-  teal:    '#41A6C7',
-  green:   '#43D793',
-  navy:    '#1a2536',
-  red:     '#ef4444',
-  yellow:  '#f59e0b',
-  gray:    '#6b7280',
-}
-
-/* ── Badge statut dossier ────────────────────────────────────── */
-const STATUT_STYLE = {
-  EN_COURS: { bg: '#fef9c3', text: '#b45309', label: 'En cours' },
-  VALIDE:   { bg: '#dcfce7', text: '#15803d', label: 'Validé' },
-  REJETE:   { bg: '#fee2e2', text: '#b91c1c', label: 'Rejeté' },
-  ARCHIVE:  { bg: '#f3f4f6', text: '#6b7280', label: 'Archivé' },
-  ANNULE:   { bg: '#fce7f3', text: '#9d174d', label: 'Annulé' },
-}
-
-const TYPE_STYLE = {
-  DTV:               { bg: '#e0f2fe', text: '#0369a1', label: 'DTV' },
-  CF:                { bg: '#dcfce7', text: '#15803d', label: 'CF' },
-  CONTRACTUALISATION: { bg: '#fef3c7', text: '#92400e', label: 'Contrat' },
-}
-
-/* ── Badge gravité anomalie ──────────────────────────────────── */
-const GRAVITE_STYLE = {
-  BLOQUANTE: { bg: '#fee2e2', text: '#b91c1c', dot: '#ef4444' },
-  MAJEURE:   { bg: '#fef3c7', text: '#92400e', dot: '#f59e0b' },
-  MINEURE:   { bg: '#f3f4f6', text: '#6b7280', dot: '#9ca3af' },
-}
+import { C, STATUT_STYLE, TYPE_STYLE, GRAVITE_STYLE } from '@/utils/theme'
 
 /* ── KPI Card ────────────────────────────────────────────────── */
 function KpiCard({ label, value, sub, icon: Icon, accent, trend }) {
