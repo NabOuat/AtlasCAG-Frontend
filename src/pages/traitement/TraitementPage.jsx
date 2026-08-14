@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom'
 import { useZone } from '@/layouts/ZoneLayout'
 import { FileCheck, Activity } from 'lucide-react'
+import SuiviCF from './SuiviCF'
 
 const CFG = {
   'traitement-cf':  { label: 'Traitement CF',  icon: FileCheck, color: '#C75A24' },
@@ -12,6 +13,10 @@ export default function TraitementPage() {
   const zone = useZone()
   const key  = pathname.split('/').pop()
   const { label, icon: Icon, color } = CFG[key] ?? CFG['traitement-cf']
+
+  if (key === 'traitement-cf') {
+    return <SuiviCF />
+  }
 
   return (
     <div>
