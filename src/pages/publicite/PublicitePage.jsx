@@ -400,13 +400,13 @@ function UploadModal({ mode, villages, onClose, onSuccess }) {
           {isPDF ? (
             <div>
               <label style={{ fontSize: 12, fontWeight: 600, color: C.muted, display: 'block', marginBottom: 6 }}>
-                N° de dossier (ID) *
+                N° de dossier (ID ou Code) *
               </label>
               <input
                 value={form.dossier}
                 onChange={e => setForm(v => ({ ...v, dossier: e.target.value }))}
-                placeholder="ID du dossier CF"
-                type="number"
+                placeholder="Ex. 088-001-000011 ou ID du dossier"
+                type="text"
                 style={{
                   width: '100%', padding: '9px 12px',
                   border: `1px solid ${C.border}`, borderRadius: 8,
